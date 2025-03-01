@@ -3,7 +3,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 import postRoutes from "./routes/postRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
-import upload from "./middleware/upload.js"; // ✅ Middleware upload ảnh
 import { fileURLToPath } from "url";
 import path from "path";
 import db from "./db.js"; // ✅ Kết nối MySQL
@@ -23,15 +22,6 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 // ✅ Routes
 app.use("/api/posts", postRoutes);
 app.use("/api/auth", authRoutes);
-
-// ✅ Route upload ảnh
-app.post("/api/upload-avatar", upload.single("avatar"), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ success: false, message: "Không có file nào được tải lên!" });
-  }
-  const fileUrl = `/uploads/avatars/${req.file.filename}`;
-  res.json({ success: true, avatar: fileUrl });
-});
 
 // ✅ Test kết nối MySQL
 db.getConnection()

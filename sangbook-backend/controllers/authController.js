@@ -58,7 +58,7 @@ export const login = async (req, res) => {
         id: user.id,
         username: user.username,
         email: user.email,
-        avatar: user.avatar,
+        avatar: user.avatar ? `http://localhost:4000/${user.avatar}` : null,
       },
       token,
     });
